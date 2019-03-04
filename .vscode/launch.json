@@ -1,0 +1,11 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - P2Main",
+      "request": "launch",
+      "mainClass": "es.uv.prnr.p2.P2Main",
+      "projectName": "es.uv.prnr.p2"
+    }
+  ]
+}
