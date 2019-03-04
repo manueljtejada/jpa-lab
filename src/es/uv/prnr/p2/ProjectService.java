@@ -2,11 +2,12 @@ package es.uv.prnr.p2;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 
 public class ProjectService {
@@ -56,7 +57,11 @@ public class ProjectService {
 	 * @return el proyecto creado
 	 */
 	public Project createBigDataProject(String name, Department d, Manager m, BigDecimal budget) {
-		return null;
+		LocalDate startDate = LocalDate.now();
+		LocalDate endDate = LocalDate.now().plusYears(3);
+		Project project = new Project(name, d, m, budget, startDate, endDate, "Big Data");
+		em.persist(project);
+		return project;
 	}
 
 	/**TODO

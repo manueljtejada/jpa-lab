@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.*;
+
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQuery;
 
 
 //TODO JPQL de Ejercicio3 employeeInProject 
@@ -49,6 +53,8 @@ public class Project  {
 	private String name;
 	
 	//TODO Relación * a 1 con Department
+	@ManyToOne
+	@JoinColumn(name="fk_department")
 	private Department department;
 	
 	private BigDecimal budget;
@@ -60,6 +66,8 @@ public class Project  {
 	private String area;
 	
 	//TODO Relacion * a 1 con Project
+	@ManyToOne
+	@JoinColumn(name="fk_manager")
 	private Manager manager;
 	
 	//TODO relacion * a * utilizando una tabla intermedia
