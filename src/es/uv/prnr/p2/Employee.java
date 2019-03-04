@@ -36,7 +36,7 @@ public class Employee {
 
 	/*Necesario referencedColumnName puesto que la fk y pk se llaman igual */
 	@OneToMany
-	@JoinColumn( name="emp_no", referencedColumnName="emp_no")
+	@JoinColumn( name="emp_no", updatable=false, referencedColumnName="emp_no")
 	private List<Salary> salaries = new ArrayList();
 
 	//TODO Relacion bidireccional con Project

@@ -36,11 +36,11 @@ public class ProjectService {
 	 * @return
 	 */
 	public Manager promoteToManager(int employeeId, long bonus) {
-		Employee employee = this.em.find(Employee.class, employeeId);
+		Employee employee = em.find(Employee.class, employeeId);
 		Manager manager = new Manager(employee, bonus);
-		this.em.getTransaction().begin();
-		this.em.remove(employee);
-		this.em.persist(manager);
+		em.getTransaction().begin();
+		em.remove(employee);
+		em.persist(manager);
 		em.getTransaction().commit();
 
 		return manager;
