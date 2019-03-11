@@ -72,7 +72,12 @@ public class ProjectService {
 	 * @param endId identificador final de empleados. Se asume que start id < endId
 	 */
 	public void assignTeam (Project p, int startId, int endId) {
+		Project project = em.find(Project.class, p.getId());
 
+		for (int i = startId; i < endId; i++) {
+			Employee e = em.find(Employee.class, i);
+			p.addEmployee(e);
+		}
 	}
 
 	/** TODO
