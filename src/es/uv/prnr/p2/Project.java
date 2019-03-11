@@ -14,29 +14,28 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 
-//TODO JPQL de Ejercicio3 employeeInProject
-@NamedQuery(
-			name="Project.findEmployee",
-			query = ""
-			)
-
-//TODO JPQL de Ejercicio3 getTopHoursMonth
-@NamedQuery(
-			name="Project.getTopMonths",
-			query=""
-)
-
-//TODO Consulta SQL para getMonthly Budget. Se recomienda encarecidamente testearla con Workbench
-//antes de incluirla aqu�
-@NamedNativeQuery(
-		name="Project.getMonthlyBudget",
-		query = "",
-		resultSetMapping = "MonthBudgetMapping"
-)
+////TODO JPQL de Ejercicio3 employeeInProject
+//@NamedQuery(
+//			name="Project.findEmployee",
+//			query = ""
+//			)
+//
+////TODO JPQL de Ejercicio3 getTopHoursMonth
+//@NamedQuery(
+//			name="Project.getTopMonths",
+//			query=""
+//)
+//
+////TODO Consulta SQL para getMonthly Budget. Se recomienda encarecidamente testearla con Workbench
+////antes de incluirla aqu�
+//@NamedNativeQuery(
+//		name="Project.getMonthlyBudget",
+//		query = "",
+//		resultSetMapping = "MonthBudgetMapping"
+//)
 
 //TODO Mapeo del ResultSet para la consulta anterior
 /*@SqlResultSetMapping(
@@ -81,20 +80,21 @@ public class Project  {
 	@ManyToOne
 	@JoinColumn(name="fk_manager")
 	private Manager manager;
-
+	
+	
+	//TODO relacion * a * utilizando una tabla intermedia
 	@ManyToMany
 	@JoinTable(
-		name="dept_emp",
-			joinColumns=@JoinColumn(name="fk_emp_no",
-			referencedColumnName="emp_no"),
-			inverseJoinColumns=@JoinColumn(name="fk_dept_no",
-			referencedColumnName="dept_no")
+		name="project_team",
+			joinColumns=@JoinColumn(name="project_id",
+			referencedColumnName="id"),
+			inverseJoinColumns=@JoinColumn(name="employee_id",
+			referencedColumnName="emp_no")
 		)
-
-	//TODO relacion * a * utilizando una tabla intermedia
 	private Set<Employee> team = new HashSet<Employee>(0);
 
 	//TODO Relacion 1 a * con la clase ProjectHours
+	@OneToMany(mappedBy="project")
 	private List<ProjectHours> hours = new ArrayList<ProjectHours>();
 
 

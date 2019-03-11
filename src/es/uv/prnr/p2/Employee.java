@@ -40,7 +40,8 @@ public class Employee {
 	private List<Salary> salaries = new ArrayList();
 
 	//TODO Relacion bidireccional con Project
-	//private List<Project> assignedTo = new ArrayList();
+	@ManyToMany(mappedBy="team")
+	private List<Project> assignedTo = new ArrayList();
 
 	public Employee(){
 
