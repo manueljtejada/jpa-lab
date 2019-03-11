@@ -28,7 +28,7 @@ public class ProjectService {
 		return this.em.find(Department.class, id);
 	}
 
-	/** TODO
+	/**
 	 * Asciende a un empleado a manager. Utilizar una estrateg�a de herencia adecuada
 	 * en employee. Tened en cuenta que NO puede haber dos entidades con el mismo id
 	 * por lo que habr� que eliminar el empleado original en algun momento.
@@ -65,7 +65,7 @@ public class ProjectService {
 	}
 
 	/**TODO
-	 * Crea un equipo de proyecto. Se debera implementa el m�todo addEmployee de
+	 * Crea un equipo de proyecto. Se debera implementar el m�todo addEmployee de
 	 * Project para incluir los empleados
 	 * @param p proyecto al cual asignar el equipo
 	 * @param startId identificador a partir del cual se asignan empleado

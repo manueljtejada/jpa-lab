@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQuery;
@@ -80,6 +81,15 @@ public class Project  {
 	@ManyToOne
 	@JoinColumn(name="fk_manager")
 	private Manager manager;
+
+	@ManyToMany
+	@JoinTable(
+		name="dept_emp",
+			joinColumns=@JoinColumn(name="fk_emp_no",
+			referencedColumnName="emp_no"),
+			inverseJoinColumns=@JoinColumn(name="fk_dept_no",
+			referencedColumnName="dept_no")
+		)
 
 	//TODO relacion * a * utilizando una tabla intermedia
 	private Set<Employee> team = new HashSet<Employee>(0);
