@@ -7,13 +7,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQuery;
 
 
-//TODO JPQL de Ejercicio3 employeeInProject 
+//TODO JPQL de Ejercicio3 employeeInProject
 @NamedQuery(
 			name="Project.findEmployee",
 			query = ""
@@ -26,7 +30,7 @@ import javax.persistence.NamedQuery;
 )
 
 //TODO Consulta SQL para getMonthly Budget. Se recomienda encarecidamente testearla con Workbench
-//antes de incluirla aquí
+//antes de incluirla aquï¿½
 @NamedNativeQuery(
 		name="Project.getMonthlyBudget",
 		query = "",
@@ -41,42 +45,49 @@ import javax.persistence.NamedQuery;
 				targetClass=,
 				columns= {
 				}
-			)	
+			)
 	}
 )*/
 
 //TODO Anotaciones JPA necesarias
+@Entity
 public class Project  {
 
+	@Id
 	private int id;
-	
+
+	@Column
 	private String name;
-	
-	//TODO Relación * a 1 con Department
+
+	//TODO Relaciï¿½n * a 1 con Department
 	@ManyToOne
 	@JoinColumn(name="fk_department")
 	private Department department;
-	
+	@Column
 	private BigDecimal budget;
-	
+
+	@Column
 	private LocalDate startDate;
-	
+
+	@Column
 	private LocalDate endDate;
 
+	@Column
 	private String area;
-	
+
+
 	//TODO Relacion * a 1 con Project
 	@ManyToOne
 	@JoinColumn(name="fk_manager")
 	private Manager manager;
-	
+
 	//TODO relacion * a * utilizando una tabla intermedia
 	private Set<Employee> team = new HashSet<Employee>(0);
-	
+
 	//TODO Relacion 1 a * con la clase ProjectHours
 	private List<ProjectHours> hours = new ArrayList<ProjectHours>();
-	
-	
+
+
 	public Project() {
 	}
 
@@ -89,30 +100,31 @@ public class Project  {
 		this.endDate = endDate;
 		this.area = area;
 	}
-	
+
 	/**
 	 * Relaciona el proyecto con el empleado e
 	 * @param e
 	 */
 	public void addEmployee(Employee e) {
 		//TODO Codigo para relacionar el empleado con el proyecto
+		this.team.add(e);
 	}
-	
+
 	/**
-	 * Añade un numero de horas al empleado e para un mes-año concreto
+	 * Aï¿½ade un numero de horas al empleado e para un mes-aï¿½o concreto
 	 * @param e
 	 * @param month
 	 * @param year
 	 * @param hours
 	 */
 	public void addHours(Employee e, int month, int year, int hours) {
-		//TODO Codigo añadir las horas del empleado
+		//TODO Codigo aï¿½adir las horas del empleado
 	}
 
 	public int getId() {
 		return id;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
@@ -120,7 +132,7 @@ public class Project  {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 
 	public LocalDate getStartDate() {
 		return startDate;
@@ -170,11 +182,14 @@ public class Project  {
 		return this.team;
 	}
 
-	
+	public void setTeam(Set<Employee> team) {
+		this.team = team;
+	}
+
 	public List<ProjectHours> getHours(){
 		return this.hours;
 	}
-	
+
 	public void print () {
 		System.out.println("Project " + this.name + " from department " + this.department.getDeptName() );
 		System.out.print("Managed by ");
