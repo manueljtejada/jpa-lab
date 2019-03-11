@@ -76,7 +76,7 @@ public class ProjectService {
 
 		for (int i = startId; i < endId; i++) {
 			Employee e = em.find(Employee.class, i);
-			p.addEmployee(e);
+			project.addEmployee(e);
 		}
 	}
 
