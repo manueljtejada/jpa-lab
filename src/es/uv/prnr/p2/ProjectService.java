@@ -78,6 +78,7 @@ public class ProjectService {
 		for (int i = startId; i < endId; i++) {
 			Employee e = em.find(Employee.class, i);
 			project.addEmployee(e);
+
 			em.persist(project);
 			em.getTransaction().commit();
 					
