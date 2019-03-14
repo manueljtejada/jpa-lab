@@ -60,7 +60,8 @@ public class ProjectService {
 		LocalDate startDate = LocalDate.now();
 		LocalDate endDate = LocalDate.now().plusYears(3);
 		Project project = new Project(name, d, m, budget, startDate, endDate, "Big Data");
-		em.persist(project);
+//		em.persist(project);
+//		em.getTransaction().commit();
 		return project;
 	}
 
@@ -76,7 +77,10 @@ public class ProjectService {
 
 		for (int i = startId; i < endId; i++) {
 			Employee e = em.find(Employee.class, i);
-			p.addEmployee(e);
+			project.addEmployee(e);
+			em.persist(project);
+			em.getTransaction().commit();
+					
 		}
 	}
 

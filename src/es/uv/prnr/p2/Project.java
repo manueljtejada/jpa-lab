@@ -66,10 +66,10 @@ public class Project  {
 	@Column
 	private BigDecimal budget;
 
-	@Column
+	@Column(name="start_date")
 	private LocalDate startDate;
 
-	@Column
+	@Column(name="end_date")
 	private LocalDate endDate;
 
 	@Column

@@ -42,9 +42,14 @@ public class P2Main {
 		Department proyDepartment = service.getDepartmentById("d005");
 		Manager projectManager = service.promoteToManager(10001, 1000L);
 		System.out.println("Manager: " + projectManager);
-		// Project acmeProject = service.createBigDataProject("Persistence Layer",proyDepartment,projectManager,new BigDecimal(1500000.99));
-
-		// service.assignTeam(acmeProject,10001,10005);
+		Project acmeProject = service.createBigDataProject("Persistence Layer",proyDepartment,projectManager,new BigDecimal(1500000.99));
+		
+		em.persist(acmeProject);
+		em.getTransaction().commit();
+		service.assignTeam(acmeProject,10001,10005);
+		
+		//em.persist(entity);
+		//em.getTransaction().commit();
 
 		// int totalHours = service.assignInitialHours(acmeProject.getId());
 		// System.out.println("Total project hours: " + totalHours);
