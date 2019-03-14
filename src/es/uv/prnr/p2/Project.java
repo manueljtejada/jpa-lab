@@ -59,7 +59,6 @@ public class Project  {
 	@Column
 	private String name;
 
-	//TODO Relaci�n * a 1 con Department
 	@ManyToOne
 	@JoinColumn(name="fk_department")
 	private Department department;
@@ -76,13 +75,10 @@ public class Project  {
 	private String area;
 
 
-	//TODO Relacion * a 1 con Project
 	@ManyToOne
 	@JoinColumn(name="fk_manager")
 	private Manager manager;
-	
-	
-	//TODO relacion * a * utilizando una tabla intermedia
+
 	@ManyToMany
 	@JoinTable(
 		name="project_team",
@@ -93,7 +89,6 @@ public class Project  {
 		)
 	private Set<Employee> team = new HashSet<Employee>(0);
 
-	//TODO Relacion 1 a * con la clase ProjectHours
 	@OneToMany(mappedBy="project")
 	private List<ProjectHours> hours = new ArrayList<ProjectHours>();
 
@@ -116,7 +111,6 @@ public class Project  {
 	 * @param e
 	 */
 	public void addEmployee(Employee e) {
-		//TODO Codigo para relacionar el empleado con el proyecto
 		this.team.add(e);
 	}
 

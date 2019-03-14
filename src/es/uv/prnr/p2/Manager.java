@@ -2,7 +2,6 @@ package es.uv.prnr.p2;
 
 import javax.persistence.*;
 
-//TODO Anotaciones JPA necesarias
 @Entity
 @Table(name="manager")
 public class Manager extends Employee {

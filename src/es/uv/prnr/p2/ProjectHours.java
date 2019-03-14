@@ -7,7 +7,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-//TODO Anotaciones JPA necesarias
 @Entity
 @Table(name="monthly_hours")
 public class ProjectHours {
@@ -17,21 +16,19 @@ public class ProjectHours {
 	int year;
 	int hours;
 
-	//TODO Relacion * a 1 con Employee
 	@ManyToOne
 	@JoinColumn(name="fk_emp_no")
 	Employee employee;
 
-	//TODO Relacion * a 1 con Project
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "fk_project",
 				nullable = false)
 	Project project;
-	
+
 	public ProjectHours() {
-		
+
 	}
-	
+
 	public ProjectHours(int month, int year, int hours, Employee employee, Project project) {
 		this.month = month;
 		this.year = year;
@@ -63,7 +60,5 @@ public class ProjectHours {
 	public Project getProject() {
 		return project;
 	}
-	
-	
-	
+
 }

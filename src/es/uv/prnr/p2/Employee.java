@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 @Table(name ="employees")
-//TODO Definir anotaci�n para herencia con manager
 public class Employee {
 
 	@Id @Column(name="emp_no")
@@ -39,7 +38,6 @@ public class Employee {
 	@JoinColumn( name="emp_no", updatable=false, referencedColumnName="emp_no")
 	private List<Salary> salaries = new ArrayList();
 
-	//TODO Relacion bidireccional con Project
 	@ManyToMany(mappedBy="team")
 	private List<Project> assignedTo = new ArrayList();
 
