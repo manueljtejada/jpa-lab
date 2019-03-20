@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 
 public class ProjectService {
@@ -117,7 +118,10 @@ public class ProjectService {
 	 * @return cierto si se encuentra asignado al proyecto
 	 */
 	public boolean employeeInProject (int projectId, String firstName, String lastName){
-		return false;
+		Query q = em.createNamedQuery("Project.findEmployee", Integer.class).setParameter("name", firstName)
+				.setParameter("last_name", lastName).setParameter("project_id", projectId);
+		List<Employee> emp = q.getResultList();
+		return !emp.isEmpty();
 	}
 
 	/**TODO
@@ -129,7 +133,8 @@ public class ProjectService {
 	 * @return una lista de objetos mes,hora ordenados de mayor a menor
 	 */
 	public List getTopHourMonths(int projectId, int year, int rank) {
-		return null;
+		return em.createNamedQuery("Project.getTopMonths").setParameter("idProject", projectId)
+				.setParameter("year", year).setMaxResults(rank).getResultList();
 	}
 
 	/**TODO
@@ -140,7 +145,8 @@ public class ProjectService {
 	 * @return una colecci�n de objetos MonthlyBudget
 	 */
 	public List<MonthlyBudget> getMonthlyBudget (int projectId){
-		return null;
+		return em.createNamedQuery("Project.getMonthlyBudget", MonthlyBudget.class).setParameter("projectId", projectId)
+				.getResultList();
 	}
 
 }

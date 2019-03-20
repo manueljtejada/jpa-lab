@@ -47,32 +47,32 @@ public class P2Main {
 
 		// System.out.println(acmeProject.getName());
 		Project acmeProject = em.find(Project.class, 15);
-		service.assignTeam(acmeProject, 10001, 10005);
+		// service.assignTeam(acmeProject, 10001, 10005);
 
 		System.out.println("Project ID: " + acmeProject.getId());
 
-		int totalHours = service.assignInitialHours(acmeProject.getId());
+		// int totalHours = service.assignInitialHours(acmeProject.getId());
 		// int totalHours = service.assignInitialHours(47);
-		System.out.println("Total project hours: " + totalHours);
+		// System.out.println("Total project hours: " + totalHours);
 
 		// /*
 		//  * Ejercicio 3. Prueba de consultas
 		//  */
 
-		// // if (service.employeeInProject(acmeProject.getId(), "Parto", "Bamford"))
-		// // 	System.out.println("Parto Bamford assigned to project");
-		// // if (!service.employeeInProject(acmeProject.getId(), "Luke", "Johnson"))
-		// // 	System.out.println("Luke Johnson is not assigned to project");
+		if (service.employeeInProject(acmeProject.getId(), "Parto", "Bamford"))
+			System.out.println("Parto Bamford assigned to project");
+		if (!service.employeeInProject(acmeProject.getId(), "Luke", "Johnson"))
+			System.out.println("Luke Johnson is not assigned to project");
 
-		// // List<Object[]> results = service.getTopHourMonths(acmeProject.getId(), 2019, 3);
-		// // for (Object[] result : results) {
-		// // 	System.out.println("Month " + result[0] + " Hours " + result[1]);
-		// // }
+		List<Object[]> results = service.getTopHourMonths(acmeProject.getId(), 2019, 3);
+		for (Object[] result : results) {
+			System.out.println("Month " + result[0] + " Hours " + result[1]);
+		}
 
-		// // List<MonthlyBudget> monthBudgets = service.getMonthlyBudget(acmeProject.getId());
-		// // for (MonthlyBudget budget : monthBudgets) {
-		// // 	System.out.println(budget.getMonth() + "-" + budget.getYear() + " :  " + budget.getAmount() + " ");
-		// // }
+		List<MonthlyBudget> monthBudgets = service.getMonthlyBudget(acmeProject.getId());
+		for (MonthlyBudget budget : monthBudgets) {
+			System.out.println(budget.getMonth() + "-" + budget.getYear() + " :  " + budget.getAmount() + " ");
+		}
 
 		// Eliminamos la información creada *
 		// em.getTransaction().begin();
