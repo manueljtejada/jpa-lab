@@ -69,7 +69,7 @@ public class Project {
 	private Set<Employee> team = new HashSet<Employee>(0);
 
 	// Relacion 1 a * con la clase ProjectHours
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_project", updatable = false)
 	private List<ProjectHours> hours = new ArrayList<ProjectHours>();
 

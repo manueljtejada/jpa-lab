@@ -96,15 +96,14 @@ public class ProjectService {
 		Project p = em.find(Project.class, projectId);
 		LocalDate start = p.getStartDate();
 		while (start.isBefore(p.getEndDate())) {
-			for (Employee e: p.getEmployees()) {
+			for (Employee e : p.getEmployees()) {
 				int hours = new Random().nextInt(165) + 10;
 				totalHours += hours;
-				p.addHours(e, start.getMonthValue(), start.getYear(), totalHours);
+				p.addHours(e, start.getMonthValue(), start.getYear(), hours);
 			}
 			start = start.plusMonths(1);
 		}
-		// TODO guardar resultados
-		em.merge(p);
+		em.persist(p);
 		em.getTransaction().commit();
 		return totalHours;
 	}

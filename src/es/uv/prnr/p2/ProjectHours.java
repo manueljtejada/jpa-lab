@@ -3,6 +3,8 @@ package es.uv.prnr.p2;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,6 +17,7 @@ public class ProjectHours {
 	@Id
 	@Column(name="id", unique=true, nullable=false)
 	@JoinColumn(name = "fk_project", updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	int id;
 
 	@Column(name="month", columnDefinition="UNSIGNED INT(2)")
