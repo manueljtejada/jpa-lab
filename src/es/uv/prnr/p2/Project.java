@@ -6,97 +6,78 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+//JPQL de Ejercicio3 employeeInProject
+@NamedQuery(name = "Project.findEmployee", query = "select e.id from Employee e " + " inner join e.assignedTo aT "
+		+ " where e.firstName like :name and e.last_name like :last_name and aT.id = :project_id")
 
+// JPQL de Ejercicio3 getTopHoursMonth
+@NamedQuery(name = "Project.getTopMonths", query = "select ph.month, max(ph.hours) as top from ProjectHours ph "
+		+ " where ph.year = :year and ph.project.id = :idProject" + " group by ph.month " + " order by top ")
 
-////TODO JPQL de Ejercicio3 employeeInProject
-//@NamedQuery(
-//			name="Project.findEmployee",
-//			query = ""
-//			)
-//
-////TODO JPQL de Ejercicio3 getTopHoursMonth
-//@NamedQuery(
-//			name="Project.getTopMonths",
-//			query=""
-//)
-//
-////TODO Consulta SQL para getMonthly Budget. Se recomienda encarecidamente testearla con Workbench
-////antes de incluirla aqu�
-//@NamedNativeQuery(
-//		name="Project.getMonthlyBudget",
-//		query = "",
-//		resultSetMapping = "MonthBudgetMapping"
-//)
+// Consulta SQL para getMonthly Budget. Se recomienda encarecidamente
+// testearla con Workbench
+// antes de incluirla aquí
+@NamedNativeQuery(name = "Project.getMonthlyBudget", query = "select mh.year, mh.month, sum(round(((s.salary/1650)*mh.hours),0)) as amount from monthly_hours mh "
+		+ " inner join employees e on e.emp_no = mh.fk_employee"
+		+ " inner join salaries s on s.emp_no = mh.fk_employee and s.to_date = '9999-01-01'"
+		+ " where mh.fk_project = :projectId" + " group by mh.month, mh.year"
+		+ " order by mh.year, mh.month", resultSetMapping = "MonthBudgetMapping")
 
-//TODO Mapeo del ResultSet para la consulta anterior
-/*@SqlResultSetMapping(
-		name="MonthBudgetMapping",
-		classes = {
-			@ConstructorResult(
-				targetClass=,
-				columns= {
-				}
-			)
-	}
-)*/
+// Mapeo del ResultSet para la consulta anterior
+@SqlResultSetMapping(name = "MonthBudgetMapping", classes = {
+		@ConstructorResult(targetClass = MonthlyBudget.class, columns = { @ColumnResult(name = "year"),
+				@ColumnResult(name = "month"), @ColumnResult(name = "amount", type = Float.class) }) })
 
-//TODO Anotaciones JPA necesarias
 @Entity
-public class Project  {
+@Table(name = "project")
+public class Project {
 
 	@Id
+	@Column(name = "id")
 	private int id;
 
-	@Column
+	@Column(name = "name", unique = true)
 	private String name;
 
+	// Relacion * a 1 con Department
 	@ManyToOne
-	@JoinColumn(name="fk_department")
+	@JoinColumn(name = "fk_department")
 	private Department department;
-	@Column
+
+	@Column(name = "budget")
 	private BigDecimal budget;
 
-	@Column(name="start_date")
+	@Column(name = "start_date")
 	private LocalDate startDate;
 
-	@Column(name="end_date")
+	@Column(name = "end_date")
 	private LocalDate endDate;
 
-	@Column
+	@Column(name = "area")
 	private String area;
 
-
-	@ManyToOne
-	@JoinColumn(name="fk_manager")
+	// Relacion * a 1 con Project
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_manager")
 	private Manager manager;
 
+	// relacion * a * utilizando una tabla intermedia
 	@ManyToMany
-	@JoinTable(
-		name="project_team",
-			joinColumns=@JoinColumn(name="project_id",
-			referencedColumnName="id"),
-			inverseJoinColumns=@JoinColumn(name="employee_id",
-			referencedColumnName="emp_no")
-		)
+	@JoinTable(name = "project_team", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "emp_no"))
 	private Set<Employee> team = new HashSet<Employee>(0);
 
-	@OneToMany(mappedBy="project")
+	// Relacion 1 a * con la clase ProjectHours
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "fk_project", updatable = false)
 	private List<ProjectHours> hours = new ArrayList<ProjectHours>();
-
 
 	public Project() {
 	}
 
-	public Project(String name, Department department, Manager manager, BigDecimal budget, LocalDate startDate, LocalDate endDate, String area) {
+	public Project(String name, Department department, Manager manager, BigDecimal budget, LocalDate startDate,
+			LocalDate endDate, String area) {
 		this.name = name;
 		this.department = department;
 		this.manager = manager;
@@ -108,6 +89,7 @@ public class Project  {
 
 	/**
 	 * Relaciona el proyecto con el empleado e
+	 *
 	 * @param e
 	 */
 	public void addEmployee(Employee e) {
@@ -115,14 +97,15 @@ public class Project  {
 	}
 
 	/**
-	 * A�ade un numero de horas al empleado e para un mes-a�o concreto
+	 * Añade un numero de horas al empleado e para un mes-año concreto
+	 *
 	 * @param e
 	 * @param month
 	 * @param year
 	 * @param hours
 	 */
 	public void addHours(Employee e, int month, int year, int hours) {
-		//TODO Codigo a�adir las horas del empleado
+		this.hours.add(new ProjectHours(month, year, hours, e, this));
 	}
 
 	public int getId() {
@@ -136,7 +119,6 @@ public class Project  {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public LocalDate getStartDate() {
 		return startDate;
@@ -186,16 +168,12 @@ public class Project  {
 		return this.team;
 	}
 
-	public void setTeam(Set<Employee> team) {
-		this.team = team;
-	}
-
-	public List<ProjectHours> getHours(){
+	public List<ProjectHours> getHours() {
 		return this.hours;
 	}
 
-	public void print () {
-		System.out.println("Project " + this.name + " from department " + this.department.getDeptName() );
+	public void print() {
+		System.out.println("Project " + this.name + " from department " + this.department.getDeptName());
 		System.out.print("Managed by ");
 		this.manager.print();
 		System.out.println("Project Team");

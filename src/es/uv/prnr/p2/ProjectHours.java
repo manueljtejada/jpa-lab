@@ -1,5 +1,6 @@
 package es.uv.prnr.p2;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -10,19 +11,27 @@ import javax.persistence.Table;
 @Entity
 @Table(name="monthly_hours")
 public class ProjectHours {
+
 	@Id
+	@Column(name="id", unique=true, nullable=false)
+	@JoinColumn(name = "fk_project", updatable = false)
 	int id;
+
+	@Column(name="month", columnDefinition="UNSIGNED INT(2)")
 	int month;
+
+	@Column(name="year", columnDefinition="UNSIGNED INT(4)")
 	int year;
+
+	@Column(name="hours", columnDefinition="UNSIGNED INT(3)")
 	int hours;
 
 	@ManyToOne
-	@JoinColumn(name="fk_emp_no")
+	@JoinColumn(name="fk_employee")
 	Employee employee;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name = "fk_project",
-				nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "fk_project")
 	Project project;
 
 	public ProjectHours() {
